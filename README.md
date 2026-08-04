@@ -1,90 +1,75 @@
-# React Final Project - Cafe App
+# React + TypeScript + Vite
 
-## Description
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This is your final React project. It is an **individual** project. You will build a cafe ordering app using the **`products.json` file provided to you** - everyone builds against the same data and the same requirements, and is graded against the checklist below.
+Currently, two official plugins are available:
 
-This is a **frontend-only** project. There is no backend.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-Your finished app must be **hosted online**. You will submit your live URL through a **Google Form** (the link will be shared with you).
+## React Compiler
 
-## The Data
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-You are given a `products.json` file containing the cafe's products (`id`, `name`, `desc`, `photo`, `price`). Your app must load this data **when the app loads**, in one of two ways:
+## Expanding the ESLint configuration
 
-1. **Recommended:** place `products.json` in your `public/` folder and `fetch("/products.json")` inside a `useEffect` when the app mounts, storing the result in state. This behaves like a real API call and works the same once deployed.
-2. Alternatively, import the file directly (`import data from "./products.json"`) - Vite supports JSON imports.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-Note: `price` is a **string** in the JSON - convert it to a number before doing any math.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Requirements Checklist
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-### React Fundamentals & Code Quality
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 
-- [ ] Built with **Vite + React**
-- [ ] Proper **folder structure** (e.g. `components/`, `pages/`, `context/`)
-- [ ] Broken into **reusable components** (Header, Sidebar, Card, etc.)
-- [ ] **Best code practices**: meaningful names, small focused components, no unused code or files
-- [ ] **`useState`** for interactive UI
-- [ ] **`useEffect`** used correctly (loading the data on mount, proper dependency array)
+```
 
-### Pages (React Router)
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-- [ ] **Home** (`/`) - a landing page with whatever relevant content you like (hero, featured items, link to the menu)
-- [ ] **Items** (`/items`) - browse all the items
-- [ ] The items page has **pagination** (client-side)
-- [ ] **Item detail** (`/items/:id`) - clicking any item navigates to its detail view (**URL parameter**)
-- [ ] **Cart** (`/cart`) - a dedicated cart page
-- [ ] **Checkout** (`/checkout`) - with a **Confirm** button (nothing else needed) that **clears the cart and redirects back to Home**
-- [ ] A **404 page** for unknown routes
-- [ ] Navigation through a shared **Header** (no full page reloads)
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-### Cart (Context)
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 
-- [ ] Cart state lives in a **Context** whose provider wraps all your routes
-- [ ] A **sidebar cart visible on every page**, showing the items in the cart and the total
-- [ ] **Add to cart** from the item detail page
-- [ ] Cart page: view items, **remove** items, see the **total**
-- [ ] Cart **persists on refresh** via `localStorage`
-
-Note: passing props from page to page does not count as Context. At least the sidebar, the detail page, and the cart page must consume it.
-
-### Hosting & Submission
-
-- [ ] Deployed and **publicly accessible** (Netlify or Vercel)
-- [ ] Refreshing on any route (e.g. `/items/3`) does **not** break the app
-- [ ] Live URL submitted through the **Google Form**
-
-### Bonus (extra credit)
-
-- [ ] **Favorites** - mark/unmark items as favorites and view them somewhere (a favorites page or section), separate from the cart
-
-## Hosting
-
-Deploy with **Netlify** or **Vercel** (both free). Figuring out how to deploy is part of the project.
-
-Deploy early - don't leave hosting for the last hour.
-
-## Suggested Build Order
-
-1. Scaffold Vite with a clean folder structure (`components/`, `pages/`, `context/`). Set up all routes and page shells, Header. Load `products.json` and render the items page.
-2. Pagination on the items page. Item detail page with URL param.
-3. Cart Context: add to cart, sidebar cart, cart page with remove/total, `localStorage`.
-4. Checkout flow (confirm, clear cart, redirect home), Home page content, 404 page, styling polish, deploy, submit the form.
-
-## Rules
-
-- This is an **individual** project.
-- No backend, database, or auth - frontend only.
-- Functionality first, styling last.
-- There is no presentation for this project. **However: do not just copy and paste from AI. Understand what you are building and how it works - this matters.**
-
-## Grading
-
-| Area | Weight |
-| --- | --- |
-| Cart Context (sidebar, add/remove, checkout flow) | 35% |
-| Routing + pages | 25% |
-| Data loading, pagination, folder structure & code quality | 20% |
-| Hosted, working, submitted correctly | 20% |
-| Bonus (favorites) | up to +10% |
+```
