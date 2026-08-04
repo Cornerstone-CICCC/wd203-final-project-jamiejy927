@@ -6,38 +6,57 @@ interface Product {
   name: string;
   price: number;
   photo?: string;
-  desc?: string;
   description?: string;
 }
 
 export default function ItemDetailPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [successMessage, setSuccessMessage] = useState<string>("");
 
   useEffect(() => {
     fetch("/products.json")
       .then((res) => res.json())
       .then((data) => {
         const productArray = Array.isArray(data) ? data : data.products || data.items || [];
-        const found = productArray.find((p: any) => String(p.id) === id);
-
+        const found = productArray.find((item: any) => String(item.id) === String(id));
+        
         if (found) {
           setProduct({
             ...found,
-            price: Number(found.price), // 숫자로 변환
+            description: found.description || found.desc,
+            price: Number(found.price),
           });
         }
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Failed to load product detail:", err);
+        console.error("Failed to load product:", err);
         setLoading(false);
       });
   }, [id]);
 
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const itemIndex = existingCart.findIndex((item: any) => String(item.id) === String(product.id));
+
+    if (itemIndex > -1) {
+      existingCart[itemIndex].quantity = (existingCart[itemIndex].quantity || 1) + 1;
+    } else {
+      existingCart.push({ ...product, quantity: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+
+    setSuccessMessage("Added to cart successfully! 🛒");
+    setTimeout(() => setSuccessMessage(""), 2500);
+  };
+
   if (loading) {
-    return <div style={{ color: "white", padding: "20px", textAlign: "center" }}>Loading details...</div>;
+    return <div style={{ color: "white", padding: "20px", textAlign: "center" }}>Loading...</div>;
   }
 
   if (!product) {
@@ -46,23 +65,60 @@ export default function ItemDetailPage() {
 
   return (
     <div style={{ padding: "40px", color: "#333", display: "flex", justifyContent: "center" }}>
-      <div style={{ background: "white", padding: "40px", borderRadius: "20px", maxWidth: "600px", width: "100%", boxShadow: "0 10px 20px rgba(0,0,0,0.2)", textAlign: "center" }}>
+      <div style={{ background: "white", padding: "30px", borderRadius: "25px", width: "500px", boxShadow: "0 10px 25px rgba(0,0,0,0.15)", textAlign: "center" }}>
+        
+        <div style={{ height: "30px", marginBottom: "10px" }}>
+          {successMessage && (
+            <div style={{ background: "#ff7b9f", color: "white", padding: "5px", borderRadius: "10px", fontWeight: "bold" }}>
+              {successMessage}
+            </div>
+          )}
+        </div>
+
         {product.photo && (
-          <img src={product.photo} alt={product.name} style={{ width: "100%", height: "300px", objectFit: "cover", borderRadius: "15px", marginBottom: "20px" }} />
+          <div style={{ width: "100%", height: "260px", overflow: "hidden", borderRadius: "15px", marginBottom: "20px" }}>
+            <img src={product.photo} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
         )}
-        <h1 style={{ fontSize: "36px", margin: "10px 0" }}>{product.name}</h1>
-        <p style={{ fontSize: "24px", color: "#e60012", fontWeight: "bold", margin: "20px 0" }}>
+
+        <h1 style={{ fontSize: "26px", margin: "10px 0" }}>{product.name}</h1>
+        <p style={{ color: "#e60012", fontSize: "20px", fontWeight: "bold", marginBottom: "15px" }}>
           Price: ${product.price.toFixed(2)}
         </p>
-        <p style={{ fontSize: "16px", lineHeight: "1.6", color: "#666", marginBottom: "30px" }}>
-          {product.desc || product.description || "Delicious menu item at Cinnamoroll Cafe!"}
+        <p style={{ color: "#666", lineHeight: "1.5", marginBottom: "25px" }}>
+          {product.description || "A delicious choice from our cafe menu."}
         </p>
-        
-        <div style={{ display: "flex", gap: "15px", justifyContent: "center" }}>
-          <button style={{ padding: "12px 24px", background: "#73c2fb", color: "white", border: "none", borderRadius: "10px", fontWeight: "bold", cursor: "pointer", fontSize: "16px" }}>
+
+        <div style={{ display: "flex", justifyContent: "center", gap: "15px" }}>
+          <button
+            onClick={handleAddToCart}
+            style={{
+              padding: "10px 20px",
+              background: "#73c2fb",
+              color: "white",
+              border: "none",
+              borderRadius: "15px",
+              fontWeight: "bold",
+              cursor: "pointer",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
+            }}
+          >
             Add to Cart 🛒
           </button>
-          <Link to="/items" style={{ padding: "12px 24px", background: "#f0f0f0", color: "#333", textDecoration: "none", borderRadius: "10px", fontWeight: "bold", fontSize: "16px" }}>
+          
+          <Link
+            to="/items"
+            style={{
+              padding: "10px 20px",
+              background: "#eee",
+              color: "#333",
+              textDecoration: "none",
+              borderRadius: "15px",
+              fontWeight: "bold",
+              display: "inline-flex",
+              alignItems: "center"
+            }}
+          >
             &larr; Back to Menu
           </Link>
         </div>
