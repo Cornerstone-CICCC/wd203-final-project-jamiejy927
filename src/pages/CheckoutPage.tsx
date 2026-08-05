@@ -4,9 +4,25 @@ import { useCart } from "../context/CartContext";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { clearCart } = useCart();
+  const { cartItems, clearCart } = useCart();
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [notes, setNotes] = useState<string>("");
+
+  if (cartItems.length === 0 && !submitted) {
+    return (
+      <div style={{ padding: "60px", textAlign: "center", color: "#333" }}>
+        <div style={{ background: "white", padding: "40px", borderRadius: "20px", maxWidth: "500px", margin: "0 auto", boxShadow: "0 8px 16px rgba(0,0,0,0.1)" }}>
+          <h2 style={{ color: "#e60012", marginBottom: "15px" }}>🛒 Your cart is empty!</h2>
+          <p style={{ color: "#666", marginBottom: "20px", whiteSpace: "nowrap" }}>
+            Please add items to your cart before checking out.
+          </p>
+          <Link to="/items" style={{ padding: "10px 20px", background: "#ff7b9f", color: "white", textDecoration: "none", borderRadius: "15px", fontWeight: "bold" }}>
+            Go to Menu ☕
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,7 +84,7 @@ export default function CheckoutPage() {
         </form>
 
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <Link to="/cart" style={{ color: "#666", textDecoration: "none", fontWeight: "bold" }}>&larr; Back to Cart</Link>
+          <Link to="/items" style={{ color: "#666", textDecoration: "none", fontWeight: "bold" }}>&larr; Back to Menu</Link>
         </div>
       </div>
     </div>
