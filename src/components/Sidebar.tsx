@@ -100,7 +100,6 @@ export default function Sidebar() {
               Clear Cart 🗑️
             </button>
             
-            {/* 💡 여기 Checkout 링크에서 onClick={() => setIsOpen(false)} 를 지웠습니다! */}
             <Link
               to="/checkout"
               style={{

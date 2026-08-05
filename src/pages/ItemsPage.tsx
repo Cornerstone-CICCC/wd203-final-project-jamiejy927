@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useFavorites } from "../context/FavoritesContext";
 
 interface Product {
   id: number | string;
@@ -17,6 +18,8 @@ export default function ItemsPage() {
   
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 8;
+
+  const { toggleFavorite, isFavorite } = useFavorites();
 
   useEffect(() => {
     fetch("/products.json")
@@ -84,7 +87,7 @@ export default function ItemsPage() {
     <div style={{ padding: "40px", color: "#333", marginRight: "320px", transition: "margin-right 0.3s ease" }}>
       <h1 style={{ textAlign: "center", marginBottom: "20px", textShadow: "1px 1px 2px white" }}>Cafe Menu</h1>
       
-      <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "20px" }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "20px", flexWrap: "wrap" }}>
         {["All", "Drinks", "Dessert", "Food"].map((category) => (
           <button
             key={category}
@@ -104,11 +107,66 @@ export default function ItemsPage() {
             {category}
           </button>
         ))}
+
+        <Link
+          to="/favorites"
+          style={{
+            padding: "8px 18px",
+            borderRadius: "15px",
+            background: "#ff4d6d",
+            color: "white",
+            textDecoration: "none",
+            fontWeight: "bold",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            display: "flex",
+            alignItems: "center",
+            gap: "5px"
+          }}
+        >
+          🩷 Favorites
+        </Link>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "25px", justifyContent: "center" }}>
         {currentItems.map((item) => (
-          <div key={item.id} style={{ background: "white", padding: "15px", borderRadius: "20px", width: "220px", boxShadow: "0 6px 12px rgba(0,0,0,0.15)", textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+          <div 
+            key={item.id} 
+            style={{ 
+              position: "relative", 
+              background: "white", 
+              padding: "15px", 
+              borderRadius: "20px", 
+              width: "220px", 
+              boxShadow: "0 6px 12px rgba(0,0,0,0.15)", 
+              textAlign: "center", 
+              display: "flex", 
+              flexDirection: "column", 
+              justifyContent: "space-between" 
+            }}
+          >
+            <button
+              onClick={() => toggleFavorite(item)}
+              style={{
+                position: "absolute",
+                top: "12px",
+                right: "12px",
+                background: "white",
+                border: "none",
+                borderRadius: "50%",
+                width: "32px",
+                height: "32px",
+                cursor: "pointer",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+                fontSize: "15px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 10
+              }}
+            >
+              {isFavorite(item.id) ? "🩷" : "🤍"}
+            </button>
+
             {item.photo && (
               <div style={{ width: "100%", height: "140px", overflow: "hidden", borderRadius: "12px", marginBottom: "12px" }}>
                 <img src={item.photo} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -147,10 +205,6 @@ export default function ItemsPage() {
           ))}
         </div>
       )}
-
-      <div style={{ textAlign: "center", marginTop: "40px" }}>
-        <Link to="/" style={{ color: "#fff", background: "#333", padding: "10px 20px", borderRadius: "20px", textDecoration: "none", fontWeight: "bold" }}>&larr; Back to Home</Link>
-      </div>
     </div>
   );
 }

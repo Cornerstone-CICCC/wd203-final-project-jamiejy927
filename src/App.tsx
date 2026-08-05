@@ -6,9 +6,12 @@ import CheckoutPage from "./pages/CheckoutPage";
 import Sidebar from "./components/Sidebar";
 import { CartProvider } from "./context/CartContext";
 import "./App.css";
+import { FavoritesProvider } from "./context/FavoritesContext";
+import FavoritesPage from "./pages/FavoritesPage";
 
 function App() {
   return (
+    <FavoritesProvider>
     <CartProvider>
       <Router>
         <div className="app" style={{ width: "100%", minHeight: "100vh", position: "relative", overflowX: "hidden" }}>
@@ -31,6 +34,7 @@ function App() {
             <Route path="/items/:id" element={<ItemDetailPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="*" element={<div style={{ textAlign: "center", padding: "50px", color: "#333" }}><h1>404 Not Found</h1><Link to="/" style={{ color: "#007bff" }}>Go Home</Link></div>} />
           </Routes>
 
@@ -38,6 +42,7 @@ function App() {
         </div>
       </Router>
     </CartProvider>
+    </FavoritesProvider>
   );
 }
 

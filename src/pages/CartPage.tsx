@@ -40,7 +40,6 @@ export default function CartPage() {
             </div>
           ))}
 
-          {/* 총합 및 버튼 영역 (Clear Cart 추가 완료!) */}
           <div style={{ marginTop: "25px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h2 style={{ margin: 0, fontSize: "20px" }}>Total: <span style={{ color: "#e60012" }}>${totalPrice.toFixed(2)}</span></h2>
             
