@@ -62,7 +62,8 @@ export default function Sidebar() {
 
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ margin: "0 0 2px 0", fontSize: "13px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</p>
-                  <p style={{ margin: 0, fontSize: "12px", color: "#e60012" }}>${(item.price * item.quantity).toFixed(2)}</p>
+                  {/* 👈 수량과 상관없이 개당 원래 단가(item.price)만 고정해서 보여줍니다! */}
+                  <p style={{ margin: 0, fontSize: "12px", color: "#e60012" }}>${item.price.toFixed(2)}</p>
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
