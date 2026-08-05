@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 export default function CartPage() {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
 
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -40,14 +40,24 @@ export default function CartPage() {
             </div>
           ))}
 
+          {/* 총합 및 버튼 영역 (Clear Cart 추가 완료!) */}
           <div style={{ marginTop: "25px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h2 style={{ margin: 0, fontSize: "20px" }}>Total: <span style={{ color: "#e60012" }}>${totalPrice.toFixed(2)}</span></h2>
-            <Link
-              to="/checkout"
-              style={{ padding: "12px 25px", background: "#73c2fb", color: "white", textDecoration: "none", borderRadius: "15px", fontWeight: "bold", fontSize: "16px", display: "inline-block" }}
-            >
-              Checkout 💳
-            </Link>
+            
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                onClick={() => clearCart()}
+                style={{ padding: "12px 20px", background: "#ff6961", color: "white", border: "none", borderRadius: "15px", fontWeight: "bold", fontSize: "15px", cursor: "pointer" }}
+              >
+                Clear Cart 🗑️
+              </button>
+              <Link
+                to="/checkout"
+                style={{ padding: "12px 25px", background: "#73c2fb", color: "white", textDecoration: "none", borderRadius: "15px", fontWeight: "bold", fontSize: "16px", display: "inline-block" }}
+              >
+                Checkout 💳
+              </Link>
+            </div>
           </div>
         </div>
       )}
