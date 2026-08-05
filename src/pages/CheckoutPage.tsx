@@ -6,6 +6,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const { clearCart } = useCart();
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [notes, setNotes] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,6 +47,16 @@ export default function CheckoutPage() {
           <div>
             <label style={{ display: "block", marginBottom: "8px", fontWeight: "bold" }}>Address</label>
             <input type="text" required style={{ width: "100%", padding: "10px", borderRadius: "10px", border: "1px solid #ccc", boxSizing: "border-box" }} />
+          </div>
+
+          <div>
+            <label style={{ display: "block", marginBottom: "8px", fontWeight: "bold" }}>Order Notes (Optional)</label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="e.g. Less sweet, extra ice..."
+              style={{ width: "100%", padding: "10px", borderRadius: "10px", border: "1px solid #ccc", boxSizing: "border-box", height: "80px", resize: "vertical" }}
+            />
           </div>
 
           <button

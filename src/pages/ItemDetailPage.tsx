@@ -16,6 +16,7 @@ export default function ItemDetailPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [successMessage, setSuccessMessage] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     fetch("/products.json")
@@ -42,14 +43,16 @@ export default function ItemDetailPage() {
   const handleAddToCart = () => {
     if (!product) return;
 
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      photo: product.photo,
-    });
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        photo: product.photo,
+      });
+    }
 
-    setSuccessMessage("Added to cart successfully! 🛒");
+    setSuccessMessage(`Added ${quantity} item(s) to cart! 🛒`);
     setTimeout(() => setSuccessMessage(""), 2500);
   };
 
@@ -86,6 +89,22 @@ export default function ItemDetailPage() {
         <p style={{ color: "#666", lineHeight: "1.5", marginBottom: "25px" }}>
           {product.description || "A delicious choice from our cafe menu."}
         </p>
+
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+          <button
+            onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
+            style={{ padding: "6px 12px", background: "#eee", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold" }}
+          >
+            -
+          </button>
+          <span style={{ fontSize: "18px", fontWeight: "bold", width: "30px", textAlign: "center" }}>{quantity}</span>
+          <button
+            onClick={() => setQuantity((prev) => prev + 1)}
+            style={{ padding: "6px 12px", background: "#eee", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold" }}
+          >
+            +
+          </button>
+        </div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: "15px" }}>
           <button
