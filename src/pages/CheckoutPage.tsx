@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
+  const { clearCart } = useCart();
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.removeItem("cart");
+    clearCart();
     setSubmitted(true);
     setTimeout(() => {
-      navigate("/items");
+      navigate("/");
     }, 3000);
   };
 
@@ -19,7 +21,7 @@ export default function CheckoutPage() {
       <div style={{ padding: "60px", textAlign: "center", color: "#333" }}>
         <div style={{ background: "white", padding: "40px", borderRadius: "20px", maxWidth: "500px", margin: "0 auto", boxShadow: "0 8px 16px rgba(0,0,0,0.1)" }}>
           <h2 style={{ color: "#77dd77", marginBottom: "15px" }}>🎉 Order Submitted Successfully!</h2>
-          <p style={{ color: "#666" }}>Thank you for your order. Redirecting to menu...</p>
+          <p style={{ color: "#666" }}>Thank you for your order. Redirecting to home...</p>
         </div>
       </div>
     );

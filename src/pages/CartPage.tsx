@@ -1,48 +1,8 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-interface CartItem {
-  id: number | string;
-  name: string;
-  price: number;
-  photo?: string;
-  quantity: number;
-}
+import { useCart } from "../context/CartContext";
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    setCartItems(savedCart);
-  }, []);
-
-  const updateCart = (newItems: CartItem[]) => {
-    setCartItems(newItems);
-    localStorage.setItem("cart", JSON.stringify(newItems));
-    window.dispatchEvent(new Event("cartUpdated"));
-  };
-
-  const handleIncrease = (id: number | string) => {
-    const updated = cartItems.map((item) =>
-      String(item.id) === String(id) ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    updateCart(updated);
-  };
-
-  const handleDecrease = (id: number | string) => {
-    const updated = cartItems
-      .map((item) =>
-        String(item.id) === String(id) ? { ...item, quantity: item.quantity - 1 } : item
-      )
-      .filter((item) => item.quantity > 0);
-    updateCart(updated);
-  };
-
-  const handleRemove = (id: number | string) => {
-    const updated = cartItems.filter((item) => String(item.id) !== String(id));
-    updateCart(updated);
-  };
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
 
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -72,10 +32,10 @@ export default function CartPage() {
               </div>
 
               <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0, marginLeft: "20px" }}>
-                <button onClick={() => handleDecrease(item.id)} style={{ padding: "4px 10px", background: "#eee", border: "none", borderRadius: "6px", cursor: "pointer" }}>-</button>
+                <button onClick={() => updateQuantity(item.id, -1)} style={{ padding: "4px 10px", background: "#eee", border: "none", borderRadius: "6px", cursor: "pointer" }}>-</button>
                 <span style={{ fontWeight: "bold", width: "20px", textAlign: "center" }}>{item.quantity}</span>
-                <button onClick={() => handleIncrease(item.id)} style={{ padding: "4px 10px", background: "#eee", border: "none", borderRadius: "6px", cursor: "pointer" }}>+</button>
-                <button onClick={() => handleRemove(item.id)} style={{ marginLeft: "15px", background: "#ff6961", color: "white", border: "none", padding: "6px 12px", borderRadius: "8px", cursor: "pointer" }}>Remove</button>
+                <button onClick={() => updateQuantity(item.id, 1)} style={{ padding: "4px 10px", background: "#eee", border: "none", borderRadius: "6px", cursor: "pointer" }}>+</button>
+                <button onClick={() => removeFromCart(item.id)} style={{ marginLeft: "15px", background: "#ff6961", color: "white", border: "none", padding: "6px 12px", borderRadius: "8px", cursor: "pointer" }}>Remove</button>
               </div>
             </div>
           ))}

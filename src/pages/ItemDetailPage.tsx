@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 interface Product {
   id: number | string;
@@ -11,6 +12,7 @@ interface Product {
 
 export default function ItemDetailPage() {
   const { id } = useParams();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [successMessage, setSuccessMessage] = useState<string>("");
@@ -40,16 +42,12 @@ export default function ItemDetailPage() {
   const handleAddToCart = () => {
     if (!product) return;
 
-    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const itemIndex = existingCart.findIndex((item: any) => String(item.id) === String(product.id));
-
-    if (itemIndex > -1) {
-      existingCart[itemIndex].quantity = (existingCart[itemIndex].quantity || 1) + 1;
-    } else {
-      existingCart.push({ ...product, quantity: 1 });
-    }
-
-    localStorage.setItem("cart", JSON.stringify(existingCart));
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      photo: product.photo,
+    });
 
     setSuccessMessage("Added to cart successfully! 🛒");
     setTimeout(() => setSuccessMessage(""), 2500);
