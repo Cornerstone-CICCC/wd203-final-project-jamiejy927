@@ -55,22 +55,21 @@ export default function Sidebar() {
             <p style={{ textAlign: "center", color: "#888", marginTop: "40px" }}>Your cart is empty.</p>
           ) : (
             cartItems.map((item) => (
-              <div key={item.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", borderBottom: "1px solid #eee", paddingBottom: "8px", gap: "8px" }}>
+              <div key={item.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px", borderBottom: "1px solid #eee", paddingBottom: "10px", gap: "8px" }}>
                 {item.photo && (
-                  <img src={item.photo} alt={item.name} style={{ width: "45px", height: "45px", objectFit: "cover", borderRadius: "6px", border: "1px solid #ddd" }} />
+                  <img src={item.photo} alt={item.name} style={{ width: "50px", height: "50px", objectFit: "cover", borderRadius: "6px", border: "1px solid #ddd" }} />
                 )}
 
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ margin: "0 0 2px 0", fontSize: "13px", fontWeight: "bold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{item.name}</p>
-                  {/* 👈 수량과 상관없이 개당 원래 단가(item.price)만 고정해서 보여줍니다! */}
-                  <p style={{ margin: 0, fontSize: "12px", color: "#e60012" }}>${item.price.toFixed(2)}</p>
+                  <p style={{ margin: "0 0 3px 0", fontSize: "14px", fontWeight: "bold", wordBreak: "normal", overflowWrap: "break-word" }}>{item.name}</p>
+                  <p style={{ margin: 0, fontSize: "13px", color: "#e60012", fontWeight: "bold" }}>${item.price.toFixed(2)}</p>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-                  <button onClick={() => updateQuantity(item.id, -1)} style={{ padding: "2px 5px", background: "#eee", border: "none", borderRadius: "3px", cursor: "pointer", fontSize: "11px" }}>-</button>
-                  <span style={{ fontSize: "12px", fontWeight: "bold", width: "14px", textAlign: "center" }}>{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item.id, 1)} style={{ padding: "2px 5px", background: "#eee", border: "none", borderRadius: "3px", cursor: "pointer", fontSize: "11px" }}>+</button>
-                  <button onClick={() => removeFromCart(item.id)} style={{ background: "#ff6961", color: "white", border: "none", padding: "2px 5px", borderRadius: "3px", cursor: "pointer", fontSize: "10px" }}>X</button>
+                <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                  <button onClick={() => updateQuantity(item.id, -1)} style={{ padding: "3px 7px", background: "#eee", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "13px", fontWeight: "bold" }}>-</button>
+                  <span style={{ fontSize: "14px", fontWeight: "bold", width: "16px", textAlign: "center" }}>{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.id, 1)} style={{ padding: "3px 7px", background: "#eee", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "13px", fontWeight: "bold" }}>+</button>
+                  <button onClick={() => removeFromCart(item.id)} style={{ background: "#ff6961", color: "white", border: "none", padding: "3px 6px", borderRadius: "4px", cursor: "pointer", fontSize: "11px", fontWeight: "bold" }}>X</button>
                 </div>
               </div>
             ))
@@ -78,7 +77,7 @@ export default function Sidebar() {
         </div>
 
         <div style={{ borderTop: "1px solid #ddd", paddingTop: "15px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontWeight: "bold", fontSize: "15px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontWeight: "bold", fontSize: "16px" }}>
             <span>Total:</span>
             <span style={{ color: "#e60012" }}>${totalPrice.toFixed(2)}</span>
           </div>
@@ -88,12 +87,12 @@ export default function Sidebar() {
               onClick={() => clearCart()}
               style={{
                 flex: 1,
-                padding: "8px",
+                padding: "10px 8px",
                 background: "#ff6961",
                 color: "white",
                 border: "none",
                 borderRadius: "8px",
-                fontSize: "12px",
+                fontSize: "13px",
                 fontWeight: "bold",
                 cursor: "pointer"
               }}
@@ -107,14 +106,14 @@ export default function Sidebar() {
                 flex: 1,
                 display: "block",
                 textAlign: "center",
-                padding: "8px",
+                padding: "10px 8px",
                 background: "#73c2fb",
                 color: "white",
                 textDecoration: "none",
                 borderRadius: "8px",
                 fontWeight: "bold",
-                fontSize: "12px",
-                lineHeight: "1.5"
+                fontSize: "13px",
+                lineHeight: "1.4"
               }}
             >
               Checkout 💳
@@ -127,12 +126,12 @@ export default function Sidebar() {
             style={{
               display: "block",
               textAlign: "center",
-              padding: "8px",
+              padding: "10px 8px",
               background: "#ff7b9f",
               color: "white",
               textDecoration: "none",
               borderRadius: "8px",
-              fontSize: "12px",
+              fontSize: "13px",
               fontWeight: "bold"
             }}
           >

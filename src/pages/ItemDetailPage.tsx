@@ -138,6 +138,7 @@ export default function ItemDetailPage() {
                 border: "none",
                 borderRadius: "15px",
                 fontWeight: "bold",
+                fontSize: "14px",
                 cursor: "pointer",
                 boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
               }}
@@ -154,6 +155,7 @@ export default function ItemDetailPage() {
                 textDecoration: "none",
                 borderRadius: "15px",
                 fontWeight: "bold",
+                fontSize: "14px",
                 display: "inline-flex",
                 alignItems: "center"
               }}
