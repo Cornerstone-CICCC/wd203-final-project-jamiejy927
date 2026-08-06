@@ -136,7 +136,7 @@ export default function ItemsPage() {
           </Link>
         </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "25px", justifyContent: "center" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "25px", justifyContent: "center", maxWidth: "1050px", margin: "0 auto" }}>
           {currentItems.map((item) => (
             <div 
               key={item.id} 

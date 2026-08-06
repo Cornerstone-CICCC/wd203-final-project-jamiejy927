@@ -69,17 +69,29 @@ export default function ItemDetailPage() {
       <style>{`
         @media (max-width: 768px) {
           .detail-wrapper {
-            padding: 15px !important;
+            padding: 10px !important;
           }
+          /* 흰색 카드만 세로 길이를 줄이기 위해 내부 요소들의 여백과 높이만 조절 */
           .detail-card {
             width: 100% !important;
             padding: 20px !important;
+          }
+          .detail-img-box {
+            height: 180px !important;
+            margin-bottom: 15px !important;
+          }
+          .detail-desc {
+            margin-bottom: 18px !important;
+          }
+          .detail-qty {
+            margin-bottom: 15px !important;
           }
         }
       `}</style>
       <div className="detail-wrapper" style={{ padding: "40px", color: "#333", display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
         <div className="detail-card" style={{ background: "white", padding: "30px", borderRadius: "25px", width: "500px", boxShadow: "0 10px 25px rgba(0,0,0,0.15)", textAlign: "center", boxSizing: "border-box" }}>
           
+          {/* 분홍색 알림창 코드는 원본 그대로 유지 */}
           <div style={{ height: "30px", marginBottom: "10px" }}>
             {successMessage && (
               <div style={{ background: "#ff7b9f", color: "white", padding: "5px", borderRadius: "10px", fontWeight: "bold" }}>
@@ -89,7 +101,7 @@ export default function ItemDetailPage() {
           </div>
 
           {product.photo && (
-            <div style={{ width: "100%", height: "260px", overflow: "hidden", borderRadius: "15px", marginBottom: "20px" }}>
+            <div className="detail-img-box" style={{ width: "100%", height: "260px", overflow: "hidden", borderRadius: "15px", marginBottom: "20px" }}>
               <img src={product.photo} alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
           )}
@@ -98,11 +110,11 @@ export default function ItemDetailPage() {
           <p style={{ color: "#e60012", fontSize: "20px", fontWeight: "bold", marginBottom: "15px" }}>
             Price: ${product.price.toFixed(2)}
           </p>
-          <p style={{ color: "#666", lineHeight: "1.5", marginBottom: "25px" }}>
+          <p className="detail-desc" style={{ color: "#666", lineHeight: "1.5", marginBottom: "25px" }}>
             {product.description || "A delicious choice from our cafe menu."}
           </p>
 
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+          <div className="detail-qty" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
             <button
               onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
               style={{ padding: "6px 12px", background: "#eee", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold" }}
