@@ -71,7 +71,6 @@ export default function ItemDetailPage() {
           .detail-wrapper {
             padding: 10px !important;
           }
-          /* 흰색 카드만 세로 길이를 줄이기 위해 내부 요소들의 여백과 높이만 조절 */
           .detail-card {
             width: 100% !important;
             padding: 20px !important;
@@ -91,7 +90,6 @@ export default function ItemDetailPage() {
       <div className="detail-wrapper" style={{ padding: "40px", color: "#333", display: "flex", justifyContent: "center", boxSizing: "border-box" }}>
         <div className="detail-card" style={{ background: "white", padding: "30px", borderRadius: "25px", width: "500px", boxShadow: "0 10px 25px rgba(0,0,0,0.15)", textAlign: "center", boxSizing: "border-box" }}>
           
-          {/* 분홍색 알림창 코드는 원본 그대로 유지 */}
           <div style={{ height: "30px", marginBottom: "10px" }}>
             {successMessage && (
               <div style={{ background: "#ff7b9f", color: "white", padding: "5px", borderRadius: "10px", fontWeight: "bold" }}>

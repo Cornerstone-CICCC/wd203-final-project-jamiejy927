@@ -1,8 +1,16 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
+
+  useEffect(() => {
+    document.body.classList.add("cart-page-body");
+    return () => {
+      document.body.classList.remove("cart-page-body");
+    };
+  }, []);
 
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 

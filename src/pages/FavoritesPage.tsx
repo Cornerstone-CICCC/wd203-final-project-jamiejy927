@@ -1,8 +1,16 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 
 export default function FavoritesPage() {
   const { favorites, toggleFavorite } = useFavorites();
+
+  useEffect(() => {
+    document.body.classList.add("favorites-page-body");
+    return () => {
+      document.body.classList.remove("favorites-page-body");
+    };
+  }, []);
 
   return (
     <>

@@ -61,6 +61,18 @@ body {
   background-attachment: fixed;
 }
 
+body.cart-page-body {
+  background-image: url('/family.jpg') !important;
+}
+
+body.checkout-page-body {
+  background-image: url('/friends.jpg') !important;
+}
+
+body.favorites-page-body {
+  background-image: url('/cup.jpg') !important;
+}
+
 #root {
   width: 1480px;
   max-width: 100%;

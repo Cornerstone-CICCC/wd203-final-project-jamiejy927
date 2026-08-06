@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
@@ -7,6 +7,13 @@ export default function CheckoutPage() {
   const { cartItems, clearCart } = useCart();
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [notes, setNotes] = useState<string>("");
+
+  useEffect(() => {
+    document.body.classList.add("checkout-page-body");
+    return () => {
+      document.body.classList.remove("checkout-page-body");
+    };
+  }, []);
 
   if (cartItems.length === 0 && !submitted) {
     return (
